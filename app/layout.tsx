@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { WagmiContext } from "@/context/wagmiContext";
+import { ConnectContext } from "@/context/connectContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +28,7 @@ export default function RootLayout({
     version: "next",
     imageUrl: "",
     button: {
-      title: "Mint a Wrapped GhanaGoldCoin",
+      title: "Invest in Gold w/ WrappedGGC",
       action: {
         type: "launch_miniapp",
         url: "",
@@ -39,10 +41,24 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <meta 
+        property="og:image" 
+          content="" 
+        />
+        <meta 
+          name="fc:miniapp"
+          content={JSON.stringify(miniApp)} 
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <WagmiContext>
+          <ConnectContext>
+            {children}
+          </ConnectContext>
+        </WagmiContext>
       </body>
     </html>
   );
