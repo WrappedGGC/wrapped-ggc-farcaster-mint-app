@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@curvegrid/multibaas-sdk": "^1.1.0",
+    "@farcaster/miniapp-sdk": "^0.2.1",
+    "@farcaster/miniapp-wagmi-connector": "^1.1.0",
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0"
