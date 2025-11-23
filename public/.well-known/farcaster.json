@@ -1,0 +1,41 @@
+{
+  "accountAssociation": {
+    "header": "eyJmaWQiOjk3ODQzOCwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiIweDNlNzU1Yjk5QjIxNDc1ZjQxQkZjNDA1RmI2ODJiMjk4ODJDYzUxNDMifQ",
+    "payload": "eyJkb21haW4iOiJ3YXJwLjN3Yi5jbHViIn0",
+    "signature": "MHhhMDliZmIxZDhhZjJhNmZiYjY0NGQyZjEwODJmYzc4ZjU4ZjRmOGNkZjgzZmYzOGZkNmJmMzllYTEzNWRjMDVkNzczNGY4YTNhNDhlMGJiYTIwZjJkMzFmOGViNzNiOWZjOGI3OWMzYjNmNjg3YjZjMDljYWY2ZmNhZjFjZGRjNDFi"
+  },
+  "miniapp": {
+    "version": "1",
+    "name": "WrappedGGC",
+    "iconUrl": "https://wrapped-ggc-farcaster-mint-app.vercel.app/icons/logo.png",
+    "homeUrl": "https://wrapped-ggc-farcaster-mint-app.vercel.app",
+    "imageUrl": "https://wrapped-ggc-farcaster-mint-app.vercel.app/opengraph-image.png",
+    "buttonTitle": "WrappedGGC",
+    "splashImageUrl": "https://wrapped-ggc-farcaster-mint-app.vercel.app/icons/rounded_logo.png",
+    "splashBackgroundColor": "#ffffff",
+    "webhookUrl": "https://wrapped-ggc-farcaster-mint-app.vercel.app/webhook",
+    "subtitle": "WrappedGGC",
+    "description": "WrappedGGC",
+    "screenshotUrls": [
+      "https://wrapped-ggc-farcaster-mint-app.vercel.app/screenshotA.jpg",
+      "https://wrapped-ggc-farcaster-mint-app.vercel.app/screenshotB.jpg",
+      "https://wrapped-ggc-farcaster-mint-app.vercel.app/screenshotC.jpg"
+    ],
+    "primaryCategory": "finance",
+    "tags":[
+      "defi",
+      "rwa",
+      "earn"
+    ],
+    "heroImageUrl": "https://wrapped-ggc-farcaster-mint-app.vercel.app/opengraph-image.png",
+    "tagline": "WrappedGGC",
+    "ogTitle": "WrappedGGC",
+    "ogDescription": "WrappedGGC",
+    "ogImageUrl": "https://wrapped-ggc-farcaster-mint-app.vercel.app/opengraph-image.png",
+    "noIndex": false,
+    "requiredChains": [
+      "eip155:42220"
+    ],
+    "canonicalDomain": "wrapped-ggc-farcaster-mint-app.vercel.app"
+  }
+}
