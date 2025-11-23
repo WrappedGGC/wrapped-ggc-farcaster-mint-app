@@ -51,7 +51,7 @@ interface EventInput {
     txReceipt: UseWaitForTransactionReceiptReturnType['data'] | undefined;
   }
 
-export function Wrapper({ txReceipt }: EventsProps) {
+export function Wrapper() {
 
     const { address, isConnected } = useConnection();
     
