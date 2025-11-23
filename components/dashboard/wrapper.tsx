@@ -269,7 +269,7 @@ export function Wrapper() {
                         <div className="space-y-2">
                             <Button
                                 onClick={() => handleBuyCoin()}
-                                disabled={isPending || !mintBalance || mintBalance < parseUnits("1", 18)}
+                                disabled={isPending}
                                 className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-zinc-300 disabled:cursor-not-allowed dark:bg-amber-600 dark:hover:bg-amber-700 dark:disabled:bg-zinc-700 text-white font-semibold py-3"
                                 size="lg"
                             >
@@ -278,7 +278,7 @@ export function Wrapper() {
                             </Button>
                             <Button
                                 onClick={() => handleBuyHalfCoin()}
-                                disabled={isPending || !mintBalance || mintBalance < parseUnits("0.5", 18)}
+                                disabled={isPending }
                                 className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-zinc-300 disabled:cursor-not-allowed dark:bg-amber-600 dark:hover:bg-amber-700 dark:disabled:bg-zinc-700 text-white font-semibold py-3"
                                 size="lg"
                             >
@@ -287,7 +287,7 @@ export function Wrapper() {
                             </Button>
                             <Button
                                 onClick={() => handleBuyQuarterCoin()}
-                                disabled={isPending || !mintBalance || mintBalance < parseUnits("0.25", 18)}
+                                disabled={isPending }
                                 className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-zinc-300 disabled:cursor-not-allowed dark:bg-amber-600 dark:hover:bg-amber-700 dark:disabled:bg-zinc-700 text-white font-semibold py-3"
                                 size="lg"
                             >
