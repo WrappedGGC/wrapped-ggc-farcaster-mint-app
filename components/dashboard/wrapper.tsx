@@ -1,13 +1,15 @@
 "use client"
 
-import { useConnection, useReadContract } from "wagmi";
+import { useConnection, useReadContract, useWriteContract } from "wagmi";
 import { useEffect } from "react";
 import { useBlockNumber } from "wagmi"
 import { useQueryClient } from "@tanstack/react-query";
-import { wrappedGGC } from "@/utils/constants/addresses";
+import { stablecoin, wrappedGGC } from "@/utils/constants/addresses";
 import { wrappedGGCAbi } from "@/utils/abis/wrappedGGC";
 import useMultiBaas from "@/hooks/useMultiBaas";
-import { formatUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
+import { Button } from "@/components/ui/button";
+import { Coins } from "lucide-react";
 
 // Helper function to format BigInt values
 const formatBalance = (value: bigint | undefined, decimals: number = 18): string => {
@@ -96,7 +98,41 @@ export function Wrapper() {
         totalPendingMintQueryClient.invalidateQueries({ queryKey: totalPendingMintQueryKey }) 
     }, [blockNumber, totalPendingMintQueryClient, totalPendingMintQueryKey]) 
     
-    
+    // Write contract for minting
+    const { writeContract, isPending } = useWriteContract();
+
+    const handleBuyQuarterCoin = () => {
+        if (!address) return;
+        
+        writeContract({
+            address: wrappedGGC,
+            abi: wrappedGGCAbi,
+            functionName: "depositQuaterOZ",
+            args: [stablecoin],
+        });
+    };
+
+    const handleBuyHalfCoin = () => {
+        if (!address) return;
+
+        writeContract({
+            address: wrappedGGC,
+            abi: wrappedGGCAbi,
+            functionName: "depositHalfOZ",
+            args: [stablecoin],
+        });
+    };
+
+    const handleBuyCoin = () => {
+        if (!address) return;
+        
+        writeContract({
+            address: wrappedGGC,
+            abi: wrappedGGCAbi,
+            functionName: "depositOZ",
+            args: [stablecoin],
+        });
+    };
 
     return (
         <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black p-4">     
@@ -104,7 +140,7 @@ export function Wrapper() {
                 <div className="w-full max-w-md space-y-4">
                     {/* Header */}
                     <div className="text-center mb-6">
-                        <h1 className="text-2xl font-bold mb-2">Your Dashboard</h1>
+                        <h1 className="text-2xl font-bold mb-2">Your wrappedGGC Dashboard</h1>
                         <p className="text-sm text-zinc-600 dark:text-zinc-400 font-mono">
                             {formatAddress(address)}
                         </p>
@@ -172,6 +208,39 @@ export function Wrapper() {
                                     {formatBalance(totalPendingMint)}
                                 </p>
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Buy Gold Coin Buttons */}
+                    <div className="space-y-3 mt-6">
+                        <div className="space-y-2">
+                            <Button
+                                onClick={() => handleBuyCoin()}
+                                disabled={isPending || !mintBalance || mintBalance < parseUnits("1", 18)}
+                                className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-zinc-300 disabled:cursor-not-allowed dark:bg-amber-600 dark:hover:bg-amber-700 dark:disabled:bg-zinc-700 text-white font-semibold py-3"
+                                size="lg"
+                            >
+                                <Coins />
+                                {isPending ? "Processing..." : "Buy 1 oz Gold Coin"}
+                            </Button>
+                            <Button
+                                onClick={() => handleBuyHalfCoin()}
+                                disabled={isPending || !mintBalance || mintBalance < parseUnits("0.5", 18)}
+                                className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-zinc-300 disabled:cursor-not-allowed dark:bg-amber-600 dark:hover:bg-amber-700 dark:disabled:bg-zinc-700 text-white font-semibold py-3"
+                                size="lg"
+                            >
+                                <Coins />
+                                {isPending ? "Processing..." : "Buy 1/2 oz Gold Coin"}
+                            </Button>
+                            <Button
+                                onClick={() => handleBuyQuarterCoin()}
+                                disabled={isPending || !mintBalance || mintBalance < parseUnits("0.25", 18)}
+                                className="w-full bg-amber-500 hover:bg-amber-600 disabled:bg-zinc-300 disabled:cursor-not-allowed dark:bg-amber-600 dark:hover:bg-amber-700 dark:disabled:bg-zinc-700 text-white font-semibold py-3"
+                                size="lg"
+                            >
+                                <Coins />
+                                {isPending ? "Processing..." : "Buy 1/4 oz Gold Coin"}
+                            </Button>
                         </div>
                     </div>
                 </div>
