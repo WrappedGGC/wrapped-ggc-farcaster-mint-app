@@ -32,11 +32,24 @@ export function Wrapper() {
     const { getDepositEvents, getMintEvents } = useMultiBaas();
     console.log(getDepositEvents(), getMintEvents());
 
+    const balanceQueryClient = useQueryClient()
     const depositBalanceQueryClient = useQueryClient() 
     const mintBalanceQueryClient = useQueryClient() 
     const totalDepositQueryClient = useQueryClient()
     const totalPendingMintQueryClient = useQueryClient()
     const { data: blockNumber } = useBlockNumber({ watch: true }) 
+
+
+    // read balance of wggc
+    const { data: balance, queryKey: balanceQueryKey } = useReadContract({
+        address: wrappedGGC,
+        abi: wrappedGGCAbi,
+        functionName: "balanceOf",
+        args: [ address! ],
+    });
+    useEffect(() => { 
+        balanceQueryClient.invalidateQueries({ queryKey: balanceQueryKey }) 
+    }, [blockNumber, balanceQueryClient, balanceQueryKey]) 
 
 
     // read balance of deposited
@@ -97,61 +110,67 @@ export function Wrapper() {
                         </p>
                     </div>
 
-                    {/* Balance Cards */}
-                    <div className="space-y-3">
+                    {/* Balance Card - Top */}
+                    <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow-sm border border-zinc-200 dark:border-zinc-800">
+                        <div className="flex justify-between items-start">
+                            <div>
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
+                                    Balance
+                                </p>
+                                <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
+                                    {formatBalance(balance)}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Balance Cards - 2x2 Grid */}
+                    <div className="grid grid-cols-2 gap-3">
                         {/* Deposit Balance Card */}
                         <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow-sm border border-zinc-200 dark:border-zinc-800">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
-                                        Deposit Balance
-                                    </p>
-                                    <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                                        {formatBalance(depositBalance)}
-                                    </p>
-                                </div>
+                            <div className="flex flex-col">
+                                <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">
+                                    Deposit Balance
+                                </p>
+                                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                                    {formatBalance(depositBalance)}
+                                </p>
                             </div>
                         </div>
 
                         {/* Mint Balance Card */}
                         <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow-sm border border-zinc-200 dark:border-zinc-800">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
-                                        Mintable Balance
-                                    </p>
-                                    <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                                        {formatBalance(mintBalance)}
-                                    </p>
-                                </div>
+                            <div className="flex flex-col">
+                                <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">
+                                    Mintable Balance
+                                </p>
+                                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                                    {formatBalance(mintBalance)}
+                                </p>
                             </div>
                         </div>
 
                         {/* Total Deposit Card */}
                         <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow-sm border border-zinc-200 dark:border-zinc-800">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
-                                        Total Deposited
-                                    </p>
-                                    <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                                        {formatBalance(totalDeposit)}
-                                    </p>
-                                </div>
+                            <div className="flex flex-col">
+                                <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">
+                                    Total Deposited
+                                </p>
+                                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                                    {formatBalance(totalDeposit)}
+                                </p>
                             </div>
                         </div>
 
                         {/* Total Pending Mint Card */}
                         <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow-sm border border-zinc-200 dark:border-zinc-800">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-1">
-                                        Total Pending Mint
-                                    </p>
-                                    <p className="text-2xl font-bold text-zinc-900 dark:text-zinc-100">
-                                        {formatBalance(totalPendingMint)}
-                                    </p>
-                                </div>
+                            <div className="flex flex-col">
+                                <p className="text-xs text-zinc-600 dark:text-zinc-400 mb-1">
+                                    Total Pending Mint
+                                </p>
+                                <p className="text-lg font-bold text-zinc-900 dark:text-zinc-100">
+                                    {formatBalance(totalPendingMint)}
+                                </p>
                             </div>
                         </div>
                     </div>
