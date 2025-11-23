@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { WagmiContext } from "@/context/wagmiContext";
 import { ConnectContext } from "@/context/connectContext";
+import { MiniAppProvider } from "@/context/miniAppProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,9 +56,11 @@ export default function RootLayout({
         className={`${geistMono.className}`}
       >
         <WagmiContext>
+          <MiniAppProvider>
           <ConnectContext>
             {children}
           </ConnectContext>
+          </MiniAppProvider>
         </WagmiContext>
       </body>
     </html>
