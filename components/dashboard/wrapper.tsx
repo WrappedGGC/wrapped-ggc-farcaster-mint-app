@@ -69,7 +69,16 @@ export function Wrapper() {
     
 
     return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">        
+        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">     
+            {isConnected ? (
+                <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-2xl font-bold">{address}</h1>
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center">
+                    <h1 className="text-2xl font-bold">Connect your wallet</h1>
+                </div>
+            )}   
         </div>
     )
 }
