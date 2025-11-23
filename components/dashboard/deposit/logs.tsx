@@ -16,6 +16,7 @@ import { useConnection } from "wagmi";
 import { Table, TableBody } from "@/components/ui/table";
 import { EventData } from "../wrapper";
 import { Log } from "./log";
+import { useGetLogs } from "@/hooks/useGetLogs";
 
 
 
@@ -23,6 +24,9 @@ import { Log } from "./log";
 export function Logs({ events }: { events: EventData[] }) {
 
    const { address } = useConnection();
+
+   const { logs } = useGetLogs(address);
+   console.log(logs)
 
 
     return (
@@ -43,8 +47,8 @@ export function Logs({ events }: { events: EventData[] }) {
                     </DrawerHeader>
                     <div className="flex flex-col gap-2 p-4 pb-0">
                         <div className="flex w-full ml-2 text-sm font-bold">
-                            <span className="w-1/4">Amount</span>
-                            <span className="w-1/4">No.</span>
+                            <span className="w-1/4">USD</span>
+                            <span className="w-1/4">Gold</span>
                             <span className="w-1/4">Txn</span>
                             <span className="w-1/4">Date</span>
                         </div>
@@ -52,11 +56,11 @@ export function Logs({ events }: { events: EventData[] }) {
                             <TableBody>
                                 <div className="h-64">
                                     {
-                                        events?.map((event) => (
-                                            <Log key={event.transaction.txHash} log={event} />
+                                        logs?.map((log) => (
+                                            <Log key={log.transactionHash} log={log} />
                                         ))
                                     }
-                                </div>        
+                                </div>       
                             </TableBody>
                         </Table>
                         <p className="mt-12 text-center text-sm text-muted-foreground">A list of your recent wrappedGGC deposits.</p>
