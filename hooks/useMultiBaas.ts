@@ -19,7 +19,7 @@ interface MultiBaasHook {
 const useMultiBaas = (): MultiBaasHook => {
     const mbBaseUrl = process.env.NEXT_PUBLIC_MULTIBAAS_DEPLOYMENT_URL;
     const mbApiKey = process.env.NEXT_PUBLIC_MULTIBAAS_DAPP_USER_API_KEY;
-    const wrappedGGCContractLabel ="WrappedGGC";
+    const wrappedGGCContractLabel ="wrappedggc";
     const wrappedGGCAddressAlias = "wrappedggc8";
 
   const chain = "celo";
@@ -49,11 +49,10 @@ const useMultiBaas = (): MultiBaasHook => {
         undefined,
         undefined,
         false,
-        chain,
         wrappedGGCAddressAlias,
         wrappedGGCContractLabel,
         depositEventSignature,
-        50
+        10
       );
 
       return response.data.result;
@@ -73,7 +72,6 @@ const useMultiBaas = (): MultiBaasHook => {
         undefined,
         undefined,
         false,
-        chain,
         wrappedGGCAddressAlias,
         wrappedGGCContractLabel,
         mintEventSignature,
