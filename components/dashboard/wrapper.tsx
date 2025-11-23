@@ -1,7 +1,7 @@
 "use client"
 
 import { useConnection, useReadContract, useWriteContract } from "wagmi";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useBlockNumber } from "wagmi"
 import { useQueryClient } from "@tanstack/react-query";
 import { stablecoin, wrappedGGC } from "@/utils/constants/addresses";
@@ -9,7 +9,9 @@ import { wrappedGGCAbi } from "@/utils/abis/wrappedGGC";
 import useMultiBaas from "@/hooks/useMultiBaas";
 import { formatUnits, parseUnits } from "viem";
 import { Button } from "@/components/ui/button";
+import type { UseWaitForTransactionReceiptReturnType } from "wagmi";
 import { Coins } from "lucide-react";
+import { Logs } from "./deposit/logs";
 
 // Helper function to format BigInt values
 const formatBalance = (value: bigint | undefined, decimals: number = 18): string => {
@@ -27,12 +29,61 @@ const formatAddress = (address: string | undefined): string => {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;
 };
 
-export function Wrapper() {
+
+interface EventInput {
+    name: string;
+    type: string;
+    value: string;
+  }
+  
+  export interface EventData {
+    event: {
+      name: string;
+      inputs: EventInput[];
+    };
+    triggeredAt: string;
+    transaction: {
+      txHash: string;
+    };
+  }
+  
+  interface EventsProps {
+    txReceipt: UseWaitForTransactionReceiptReturnType['data'] | undefined;
+  }
+
+export function Wrapper({ txReceipt }: EventsProps) {
 
     const { address, isConnected } = useConnection();
     
     const { getDepositEvents, getMintEvents } = useMultiBaas();
     console.log(getDepositEvents(), getMintEvents());
+    const [events, setEvents] = useState<EventData[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  // Wrap fetchEvents with useCallback
+  const fetchEvents = useCallback(async () => {
+    setIsFetching(true);
+    try {
+      const fetchedEvents = await getDepositEvents();
+      if (fetchedEvents) {
+        setEvents(fetchedEvents);
+      }
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    } finally {
+      setIsFetching(false);
+    }
+  }, [getDepositEvents]);
+
+  // Fetch events on component mount
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  // Fetch events whenever txReceipt changes
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
     const balanceQueryClient = useQueryClient()
     const depositBalanceQueryClient = useQueryClient() 
@@ -145,6 +196,8 @@ export function Wrapper() {
                             {formatAddress(address)}
                         </p>
                     </div>
+
+                    <Logs events={events} />
 
                     {/* Balance Card - Top */}
                     <div className="bg-white dark:bg-zinc-900 rounded-lg p-4 shadow-sm border border-zinc-200 dark:border-zinc-800">
