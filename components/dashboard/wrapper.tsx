@@ -7,7 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { stablecoin, wrappedGGC } from "@/utils/constants/addresses";
 import { wrappedGGCAbi } from "@/utils/abis/wrappedGGC";
 import useMultiBaas from "@/hooks/useMultiBaas";
-import { formatUnits, parseUnits } from "viem";
+import { erc20Abi, formatUnits, parseUnits } from "viem";
 import { Button } from "@/components/ui/button";
 import type { UseWaitForTransactionReceiptReturnType } from "wagmi";
 import { Coins } from "lucide-react";
@@ -152,8 +152,21 @@ export function Wrapper() {
     // Write contract for minting
     const { writeContract, isPending } = useWriteContract();
 
+    const handleApprove = () => {
+        if (!address) return;
+        
+        writeContract({
+            address: stablecoin,
+            abi: erc20Abi,
+            functionName: "approve",
+            args: [stablecoin, parseUnits("10000000000000000000000000000000", 18)],
+        });
+    };
+
     const handleBuyQuarterCoin = () => {
         if (!address) return;
+
+        handleApprove()
         
         writeContract({
             address: wrappedGGC,
@@ -166,6 +179,8 @@ export function Wrapper() {
     const handleBuyHalfCoin = () => {
         if (!address) return;
 
+        handleApprove()
+
         writeContract({
             address: wrappedGGC,
             abi: wrappedGGCAbi,
@@ -176,6 +191,8 @@ export function Wrapper() {
 
     const handleBuyCoin = () => {
         if (!address) return;
+        
+        handleApprove()
         
         writeContract({
             address: wrappedGGC,
