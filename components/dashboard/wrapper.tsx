@@ -1,6 +1,6 @@
 "use client"
 
-import { useConnection, useReadContract, useWriteContract } from "wagmi";
+import { useConnection, useReadContract, useSwitchChain, useWriteContract } from "wagmi";
 import { useCallback, useEffect, useState } from "react";
 import { useBlockNumber } from "wagmi"
 import { useQueryClient } from "@tanstack/react-query";
@@ -13,6 +13,7 @@ import type { UseWaitForTransactionReceiptReturnType } from "wagmi";
 import { Coins } from "lucide-react";
 import { Logs } from "./deposit/logs";
 
+import { celo } from "viem/chains";
 // Helper function to format BigInt values
 const formatBalance = (value: bigint | undefined, decimals: number = 18): string => {
     if (value === undefined || value === null) return "0";
@@ -151,10 +152,15 @@ export function Wrapper() {
     
     // Write contract for minting
     const { writeContract, isPending } = useWriteContract();
+    const { switchChain } = useSwitchChain();
 
 
     const handleBuyQuarterCoin = () => {
         if (!address) return;
+
+        switchChain({
+            chainId: celo.id,
+        });
 
         writeContract({
             address: stablecoin,
@@ -180,6 +186,10 @@ export function Wrapper() {
 
     const handleBuyHalfCoin = () => {
         if (!address) return;
+
+        switchChain({
+            chainId: celo.id,
+        });
 
         writeContract({
             address: stablecoin,
@@ -207,6 +217,10 @@ export function Wrapper() {
 
     const handleBuyCoin = () => {
         if (!address) return;
+
+        switchChain({
+            chainId: celo.id,
+        });
         
         writeContract({
             address: stablecoin,
