@@ -11,6 +11,7 @@ export const ConnectContext = ({ children }: { children: React.ReactNode }) => {
     const { connect } = useConnect();
 
     const checkMiniAppPlusReady = async () => {
+        connect({ connector: miniAppConnector() });
         const isMiniApp = await sdk.isInMiniApp()
         const isReady = await sdk.actions.ready()
         if (isMiniApp && isReady) {
