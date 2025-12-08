@@ -152,7 +152,60 @@ export function Wrapper() {
     // Write contract for minting
     const { writeContract, isPending } = useWriteContract();
 
-    const handleApprove = () => {
+
+    const handleBuyQuarterCoin = () => {
+        if (!address) return;
+
+        writeContract({
+            address: stablecoin,
+            abi: erc20Abi,
+            functionName: "approve",
+            args: [stablecoin, parseUnits("10000000000000000000000000000000", 18)],
+        }, {
+            onSuccess: () => {
+                console.log("Approved");
+                writeContract({
+                    address: wrappedGGC,
+                    abi: wrappedGGCAbi,
+                    functionName: "depositQuaterOZ",
+                    args: [stablecoin],
+                }, {
+                    onSuccess: () => {
+                        console.log("Deposited 1/4 oz Gold Coin");
+                    }
+                })
+            }
+        });
+    };
+
+    const handleBuyHalfCoin = () => {
+        if (!address) return;
+
+        writeContract({
+            address: stablecoin,
+            abi: erc20Abi,
+            functionName: "approve",
+            args: [stablecoin, parseUnits("10000000000000000000000000000000", 18)],
+        }, {
+            onSuccess: () => {
+                console.log("Approved");
+                writeContract({
+                    address: wrappedGGC,
+                    abi: wrappedGGCAbi,
+                    functionName: "depositHalfOZ",
+                    args: [stablecoin],
+                }, {
+                    onSuccess: () => {
+                        console.log("Deposited 1/2 oz Gold Coin");
+                    }
+                });
+            }
+        });
+
+        
+    };
+
+    const handleBuyCoin = () => {
         if (!address) return;
         
         writeContract({
@@ -160,46 +213,23 @@ export function Wrapper() {
             abi: erc20Abi,
             functionName: "approve",
             args: [stablecoin, parseUnits("10000000000000000000000000000000", 18)],
+        }, {
+            onSuccess: () => {
+                console.log("Approved");
+                writeContract({
+                    address: wrappedGGC,
+                    abi: wrappedGGCAbi,
+                    functionName: "depositOZ",
+                    args: [stablecoin],
+                }, {
+                    onSuccess: () => {
+                        console.log("Deposited 1 oz Gold Coin");
+                    }
+                });
+            }
         });
-    };
-
-    const handleBuyQuarterCoin = () => {
-        if (!address) return;
-
-        handleApprove()
         
-        writeContract({
-            address: wrappedGGC,
-            abi: wrappedGGCAbi,
-            functionName: "depositQuaterOZ",
-            args: [stablecoin],
-        });
-    };
-
-    const handleBuyHalfCoin = () => {
-        if (!address) return;
-
-        handleApprove()
-
-        writeContract({
-            address: wrappedGGC,
-            abi: wrappedGGCAbi,
-            functionName: "depositHalfOZ",
-            args: [stablecoin],
-        });
-    };
-
-    const handleBuyCoin = () => {
-        if (!address) return;
         
-        handleApprove()
-        
-        writeContract({
-            address: wrappedGGC,
-            abi: wrappedGGCAbi,
-            functionName: "depositOZ",
-            args: [stablecoin],
-        });
     };
 
     return (
