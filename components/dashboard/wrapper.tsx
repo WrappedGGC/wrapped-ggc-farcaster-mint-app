@@ -166,7 +166,7 @@ export function Wrapper() {
             address: stablecoin,
             abi: erc20Abi,
             functionName: "approve",
-            args: [stablecoin, parseUnits("10000000000000000000000000000000", 18)],
+            args: [wrappedGGC, parseUnits("10000000000000000000000000000000", 18)],
         }, {
             onSuccess: () => {
                 console.log("Approved");
@@ -195,7 +195,7 @@ export function Wrapper() {
             address: stablecoin,
             abi: erc20Abi,
             functionName: "approve",
-            args: [stablecoin, parseUnits("10000000000000000000000000000000", 18)],
+            args: [wrappedGGC, parseUnits("10000000000000000000000000000000", 18)],
         }, {
             onSuccess: () => {
                 console.log("Approved");
@@ -226,7 +226,7 @@ export function Wrapper() {
             address: stablecoin,
             abi: erc20Abi,
             functionName: "approve",
-            args: [stablecoin, parseUnits("10000000000000000000000000000000", 18)],
+            args: [wrappedGGC, parseUnits("10000000000000000000000000000000", 18)],
         }, {
             onSuccess: () => {
                 console.log("Approved");
